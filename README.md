@@ -1,9 +1,5 @@
 # Smart Campus API
 
-A RESTful API built with JAX-RS (Jersey) and an embedded Grizzly server for managing campus rooms and IoT sensors.
-
----
-
 ## API Overview
 
 | Resource | Base Path |
@@ -46,107 +42,6 @@ smart-campus-api/
         └── LoggingFilter.java
 ```
 
----
-
-## How to Build and Run
-
-### Prerequisites
-- Java 11 or higher
-- Maven 3.6 or higher
-
-### Steps
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/smart-campus-api.git
-cd smart-campus-api
-
-# 2. Build the fat JAR
-mvn clean package
-
-# 3. Run the server
-java -jar target/smart-campus-api-1.0-SNAPSHOT.jar
-```
-
-Server starts at: **http://localhost:8080/api/v1**
-
----
-
-## Sample curl Commands
-
-### 1. Discovery
-```bash
-curl -X GET http://localhost:8080/api/v1/
-```
-
-### 2. Get all rooms
-```bash
-curl -X GET http://localhost:8080/api/v1/rooms
-```
-
-### 3. Create a room
-```bash
-curl -X POST http://localhost:8080/api/v1/rooms \
-  -H "Content-Type: application/json" \
-  -d '{"id":"CS-201","name":"CS Lecture Hall","capacity":100}'
-```
-
-### 4. Get a specific room
-```bash
-curl -X GET http://localhost:8080/api/v1/rooms/LIB-301
-```
-
-### 5. Delete a room (blocked — has sensors → 409 Conflict)
-```bash
-curl -X DELETE http://localhost:8080/api/v1/rooms/LIB-301
-```
-
-### 6. Delete an empty room (success → 204 No Content)
-```bash
-curl -X DELETE http://localhost:8080/api/v1/rooms/CS-201
-```
-
-### 7. Create a sensor
-```bash
-curl -X POST http://localhost:8080/api/v1/sensors \
-  -H "Content-Type: application/json" \
-  -d '{"id":"TEMP-002","type":"Temperature","status":"ACTIVE","currentValue":21.0,"roomId":"LAB-101"}'
-```
-
-### 8. Create sensor with invalid roomId (→ 422 Unprocessable Entity)
-```bash
-curl -X POST http://localhost:8080/api/v1/sensors \
-  -H "Content-Type: application/json" \
-  -d '{"id":"CO2-999","type":"CO2","status":"ACTIVE","currentValue":0,"roomId":"FAKE-999"}'
-```
-
-### 9. Filter sensors by type
-```bash
-curl -X GET "http://localhost:8080/api/v1/sensors?type=CO2"
-```
-
-### 10. Post a reading to an active sensor
-```bash
-curl -X POST http://localhost:8080/api/v1/sensors/TEMP-001/readings \
-  -H "Content-Type: application/json" \
-  -d '{"value":24.3}'
-```
-
-### 11. Post a reading to a MAINTENANCE sensor (→ 403 Forbidden)
-```bash
-curl -X POST http://localhost:8080/api/v1/sensors/OCC-001/readings \
-  -H "Content-Type: application/json" \
-  -d '{"value":15}'
-```
-
-### 12. Get reading history for a sensor
-```bash
-curl -X GET http://localhost:8080/api/v1/sensors/TEMP-001/readings
-```
-
----
-
-## Report: Answers to Questions
 
 ### Part 1 — Q1: JAX-RS Resource Lifecycle
 
